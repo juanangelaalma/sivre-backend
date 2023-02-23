@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiVoterController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['cors', 'json.response']], function () {
+Route::middleware(['cors', 'json.response'])->group(function () {
     Route::post('register', [ApiAuthController::class, 'register']);
     Route::post('login', [ApiAuthController::class, 'login']);
 
-    Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [ApiAuthController::class, 'logout']);
+
+        Route::controller(ApiVoterController::class)->group(function () {
+            Route::post('voter/generate', 'generate');
+            Route::get('voter/list', 'list');
+            Route::delete('voter/destroy', 'destroy');
+        });
     });
 });
