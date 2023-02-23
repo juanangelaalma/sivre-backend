@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\VotersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Services\ResponseService;
 use App\Models\Voter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApiVoterController extends Controller
 {
@@ -49,5 +51,10 @@ class ApiVoterController extends Controller
     {
         Voter::truncate();
         return ResponseService::success(null, 'Voters deleted successfully');
+    }
+
+    public function export()
+    {
+        return Excel::download(new VotersExport, 'users.xlsx');
     }
 }

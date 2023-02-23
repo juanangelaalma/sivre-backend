@@ -25,15 +25,8 @@ Route::middleware(['cors', 'json.response'])->group(function () {
     Route::post('register', [ApiAuthController::class, 'register']);
     Route::post('login', [ApiAuthController::class, 'login']);
 
-
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [ApiAuthController::class, 'logout']);
-
-        Route::controller(ApiVoterController::class)->group(function () {
-            Route::post('voter/generate', 'generate');
-            Route::get('voter/list', 'list');
-            Route::delete('voter/destroy', 'destroy');
-        });
 
         Route::controller(ApiCandidateController::class)->group(function () {
             Route::post('candidates', 'create');
@@ -42,5 +35,13 @@ Route::middleware(['cors', 'json.response'])->group(function () {
             Route::put('candidates/{candidate:id}', 'update');
             Route::delete('candidates/{candidate:id}', 'destroy');
         });
+    });
+
+    Route::controller(ApiVoterController::class)->group(function () {
+        Route::post('voters/generate', 'generate');
+        Route::get('voters/list', 'list');
+        Route::delete('voters/destroy', 'destroy');
+
+        Route::get('voters/export', 'export');
     });
 });
