@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiCandidateController;
 use App\Http\Controllers\Api\ApiVoterController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
@@ -32,6 +33,14 @@ Route::middleware(['cors', 'json.response'])->group(function () {
             Route::post('voter/generate', 'generate');
             Route::get('voter/list', 'list');
             Route::delete('voter/destroy', 'destroy');
+        });
+
+        Route::controller(ApiCandidateController::class)->group(function () {
+            Route::post('candidates', 'create');
+            Route::get('candidates', 'index');
+            Route::get('candidates/{candidate:id}', 'show');
+            Route::put('candidates/{candidate:id}', 'update');
+            Route::delete('candidates/{candidate:id}', 'destroy');
         });
     });
 });
