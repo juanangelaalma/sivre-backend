@@ -34,7 +34,7 @@ class ApiCandidateController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ResponseService::error($validator->errors()->first());
+            return ResponseService::error($validator->errors(), 'Validation error', 400);
         }
 
         $chairman_photo_url = null;
@@ -78,7 +78,7 @@ class ApiCandidateController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ResponseService::error($validator->errors()->first());
+            return ResponseService::error($validator->errors()->first(), 'Validation error', 400);
         }
 
         if ($request->hasFile('chairman_photo')) {

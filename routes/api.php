@@ -43,6 +43,7 @@ Route::middleware(['cors', 'json.response'])->group(function () {
     });
 
     Route::controller(ApiVoterController::class)->group(function () {
+        Route::post('voters/login', 'login');
         Route::post('voters/generate', 'generate');
         Route::get('voters/list', 'list');
         Route::delete('voters/destroy', 'destroy');

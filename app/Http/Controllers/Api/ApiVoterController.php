@@ -14,6 +14,26 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ApiVoterController extends Controller
 {
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseService::error($validator->errors(), 'Validation error', 400);
+        }
+
+        $voter = Voter::where('username', $request->username)->where('password', $request->password)->first();
+
+        if (!$voter) {
+            return ResponseService::error('Invalid username or password', 401);
+        }
+
+        return ResponseService::success($voter, 'Login successful', 201);
+    }
+
     public function generate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -21,7 +41,7 @@ class ApiVoterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ResponseService::error($validator->errors()->first());
+            return ResponseService::error($validator->errors(), 'Validation error', 400);
         }
 
         $amount = $request->amount;
