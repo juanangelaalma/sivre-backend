@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\ResponseService;
 use App\Models\Voter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,7 +50,9 @@ class ApiVoterController extends Controller
 
     public function destroy(Request $request)
     {
+        DB::statement("SET foreign_key_checks=0");
         Voter::truncate();
+        DB::statement("SET foreign_key_checks=1");
         return ResponseService::success(null, 'Voters deleted successfully');
     }
 
