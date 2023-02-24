@@ -17,9 +17,9 @@ class VotersExport implements FromCollection
         $newVoters = new Collection([]);
         $voters->map(function ($voter) use ($newVoters) {
             $newVoters->push([
-                'colom_name_1' => 'username',
+                'column_name_1' => 'username',
                 'username' => $voter->username,
-                'colom_name_2' => 'password',
+                'column_name_2' => 'password',
                 'password' => $voter->password,
             ]);
         });
