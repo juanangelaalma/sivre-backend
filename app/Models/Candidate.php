@@ -17,4 +17,9 @@ class Candidate extends Model
         'vision',
         'mission',
     ];
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }

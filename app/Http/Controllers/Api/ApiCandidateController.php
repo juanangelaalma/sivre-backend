@@ -121,4 +121,13 @@ class ApiCandidateController extends Controller
         $candidate->delete();
         return ResponseService::success(null, 'Candidate deleted successfully');
     }
+
+    public function vote(Request $request, Candidate $candidate)
+    {
+        $candidate->votes()->create([
+            'voter_id' => $request->voter->id,
+        ]);
+
+        return ResponseService::success($request->all());
+    }
 }

@@ -45,7 +45,8 @@ class Kernel extends HttpKernel
         \Illuminate\Contracts\Session\Middleware\AuthenticatesSessions::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
-
+        \App\Http\Middleware\VoteMiddleware::class,
+        \App\Http\Middleware\OnlyOneVoteMiddleware::class,
     ];
 
     /**
@@ -91,5 +92,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors' => \App\Http\Middleware\Cors::class,
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
+        'with.voter' => \App\Http\Middleware\VoteMiddleware::class,
+        'only.one.vote' => \App\Http\Middleware\OnlyOneVoteMiddleware::class,
     ];
 }

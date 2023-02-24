@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiCandidateController;
+use App\Http\Controllers\Api\ApiVoteController;
 use App\Http\Controllers\Api\ApiVoterController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
@@ -35,6 +36,10 @@ Route::middleware(['cors', 'json.response'])->group(function () {
             Route::put('candidates/{candidate:id}', 'update');
             Route::delete('candidates/{candidate:id}', 'destroy');
         });
+    });
+
+    Route::controller(ApiCandidateController::class)->group(function () {
+        Route::post('candidates/{candidate:id}/votes', 'vote')->middleware(['with.voter', 'only.one.vote']);
     });
 
     Route::controller(ApiVoterController::class)->group(function () {

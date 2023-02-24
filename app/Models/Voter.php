@@ -13,4 +13,9 @@ class Voter extends Model
         'username',
         'password',
     ];
+
+    public function vote()
+    {
+        return $this->hasOne(Vote::class);
+    }
 }
