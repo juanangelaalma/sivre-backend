@@ -17,14 +17,20 @@ class VoteMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->username || !$request->password) {
+        $voterCredentials = $request->voter;
+
+        if(!$voterCredentials) {
+            return ResponseService::error(null, 'Voter credentials are required', 400);
+        }
+
+        if (!$voterCredentials["username"] || !$voterCredentials["password"]) {
             return ResponseService::error(null, 'Username and password are required', 400);
         }
 
-        $voter = Voter::where('username', $request->username)->where('password', $request->password)->first();
+        $voter = Voter::where('username', $voterCredentials["username"])->where('password', $voterCredentials["password"])->first();
 
         if (!$voter) {
-            return ResponseService::error(null, 'Invalid username or password', 400);
+            return ResponseService::error(null, 'Invalid username or password', 401);
         }
 
         $request['voter'] = $voter;

@@ -21,7 +21,7 @@ class OnlyOneVoteMiddleware
             return ResponseService::error(
                 null,
                 'You have already voted',
-                400
+                409
             );
         }
 

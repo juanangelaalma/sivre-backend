@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Exports\VotersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Services\ResponseService;
+use App\Models\Vote;
 use App\Models\Voter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,13 @@ class ApiVoterController extends Controller
         $voter = Voter::where('username', $request->username)->where('password', $request->password)->first();
 
         if (!$voter) {
-            return ResponseService::error('Invalid username or password', 401);
+            return ResponseService::error('Username atau Password salah', null, 401);
+        }
+
+        $isVoted = Vote::where('voter_id', $voter->id)->first();
+
+        if ($isVoted) {
+            return ResponseService::error('Anda sudah melakukan voting', null, 401);
         }
 
         return ResponseService::success($voter, 'Login successful', 201);

@@ -31,11 +31,14 @@ Route::middleware(['cors', 'json.response'])->group(function () {
 
         Route::controller(ApiCandidateController::class)->group(function () {
             Route::post('candidates', 'create');
-            Route::get('candidates', 'index');
             Route::get('candidates/{candidate:id}', 'show');
             Route::put('candidates/{candidate:id}', 'update');
             Route::delete('candidates/{candidate:id}', 'destroy');
         });
+    });
+
+    Route::controller(ApiCandidateController::class)->group(function () {
+        Route::get('candidates', 'index');
     });
 
     Route::controller(ApiCandidateController::class)->group(function () {
@@ -49,5 +52,9 @@ Route::middleware(['cors', 'json.response'])->group(function () {
         Route::delete('voters/destroy', 'destroy');
 
         Route::get('voters/export', 'export');
+    });
+
+    Route::controller(ApiVoteController::class)->group(function () {
+        Route::get('votes', 'index');
     });
 });
